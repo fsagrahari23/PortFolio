@@ -97,11 +97,13 @@ export default async function ContactFormAction(data) {
     await receiveMessage({ name, email, message });
 
     return {
+      success: true,
       message: "Message sent successfully!",
     };
   } catch (error) {
     console.error("Error processing form:", error);
     return {
+      success: false,
       error: "An error occurred while sending the message.",
     };
   }

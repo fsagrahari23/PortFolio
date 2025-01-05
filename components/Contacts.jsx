@@ -59,7 +59,10 @@ const Contacts = () => {
     },
   });
 
+  const [isSending, setIsSending] = React.useState(false);
+
   const onSubmit = (data) => {
+    setIsSending(true);
     console.log("Received Data:", data);
 
     // Check for suspicious content
@@ -79,21 +82,32 @@ const Contacts = () => {
           "x-arcjet-suspicious": isSuspiciousInput.toString(),
         },
         body: JSON.stringify(data),
-      }).then((res) => res.json());
+      }).then((res) => {
+        console.log(res);
+        if (res.ok) {
+          alert("Message sent successfully!");
+        } else {
+          alert("An error occurred while submitting the form.");
+        }
+      });
 
-      if (result.message === "Message sent successfully") {
-        alert("Message sent successfully!");
-      } else {
-        alert(result.error);
-      }
+      // if (result.success) {
+      //   alert("Message sent successfully!");
+      // } else {
+      //   alert(result.error);
+      // }
     } catch (e) {
       alert("An error occurred while submitting the form.");
     }
     reset();
+    setIsSending(false);
   };
 
   return (
-    <div className="w-full px-[12%] py-10 bg-gray-100 dark:bg-darkTheme mx-auto">
+    <div
+      id="contact"
+      className="w-full px-[12%] py-10 bg-gray-100 dark:bg-darkTheme mx-auto"
+    >
       <motion.h1
         className="text-center mb-2 text-lg font-semibold"
         initial={{ opacity: 0, y: 20 }}
@@ -185,11 +199,11 @@ const Contacts = () => {
         <motion.button
           type="submit"
           className="bg-black text-white px-4 py-2 rounded-md mt-4 dark:bg-white dark:text-black"
-          disabled={isSubmitting}
+          disabled={isSending}
           whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.3 }}
         >
-          {isSubmitting ? "Sending..." : "Send Now"}
+          {isSending ? "Sending..." : "Send Now"}
         </motion.button>
       </form>
     </div>
