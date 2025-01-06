@@ -61,7 +61,7 @@ const Contacts = () => {
 
   const [isSending, setIsSending] = React.useState(false);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setIsSending(true);
     console.log("Received Data:", data);
 
@@ -75,7 +75,7 @@ const Contacts = () => {
     }
 
     try {
-      const result = fetch("/api/contact", {
+      const result = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -83,19 +83,14 @@ const Contacts = () => {
         },
         body: JSON.stringify(data),
       }).then((res) => {
-        console.log(res);
-        if (res.ok) {
-          alert("Message sent successfully!");
-        } else {
-          alert("An error occurred while submitting the form.");
-        }
+        return res.json();
       });
 
-      // if (result.success) {
-      //   alert("Message sent successfully!");
-      // } else {
-      //   alert(result.error);
-      // }
+      if (result.success) {
+        alert("Message sent successfully!");
+      } if(result.error) {
+        alert(result.error);
+      }
     } catch (e) {
       alert("An error occurred while submitting the form.");
     }
