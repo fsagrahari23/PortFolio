@@ -1,9 +1,46 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
-import { assets, infoList, toolsData } from "../assets/assets";
+import { assets } from "../assets/assets";
 import { motion } from "motion/react";
+import { useSelector } from "react-redux";
 
 const About = ({ isdarkMode }) => {
+  const skills = useSelector((state) => state.portfolio.skills);
+  const projects = useSelector((state) => state.portfolio.projects);
+  const timelineItems = useSelector((state) => state.portfolio.timelineItems);
+
+  const educationItems = timelineItems.filter(
+    (item) => item.category === "education"
+  );
+
+  const infoList = [
+    {
+      icon: assets.code_icon,
+      iconDark: assets.code_icon_dark,
+      title: "Languages",
+      description:
+        skills.slice(0, 5).map((item) => item.name).join(", ") ||
+        "Loading skills...",
+    },
+    {
+      icon: assets.edu_icon,
+      iconDark: assets.edu_icon_dark,
+      title: "Education",
+      description:
+        educationItems[0]?.title && educationItems[0]?.organization
+          ? `${educationItems[0].title} at ${educationItems[0].organization}`
+          : "Loading education...",
+    },
+    {
+      icon: assets.project_icon,
+      iconDark: assets.project_icon_dark,
+      title: "Projects",
+      description: `Built ${projects.length || 0} featured projects`,
+    },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -128,18 +165,20 @@ const About = ({ isdarkMode }) => {
               delay: 1.3,
             }}
             whileInView={{ opacity: 1 }}
-            className="flex items-center gap-3 sm:gap-5"
+            className="flex flex-wrap items-center gap-3 sm:gap-5"
           >
-            {toolsData.map((item, index) => (
+            {(skills.length ? skills : [{ _id: "loading", name: "Loading..." }]).map((item) => (
               <motion.li
-                key={index}
-                className="flex items-center justify-center border  border-gray-500 w-12 sm:w-14 aspect-square rounded-lg cursor-pointer hover:bg-[#fcf4ff]
+                key={item._id}
+                className="flex items-center justify-center border border-gray-500 min-w-12 px-4 sm:px-5 h-12 sm:h-14 rounded-lg cursor-pointer hover:bg-[#fcf4ff]
                 hover:-translate-y-1 duration-500
                 dark:hover:bg-darkHover
                 dark:hover:shadow-white
                 "
               >
-                <Image src={item} alt="check" className="w-5 sm:w-7" />
+                <span className="text-sm sm:text-base font-medium">
+                  {item.name}
+                </span>
               </motion.li>
             ))}
           </motion.ul>

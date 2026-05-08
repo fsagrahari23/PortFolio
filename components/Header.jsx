@@ -3,8 +3,15 @@ import Image from "next/image";
 import React from "react";
 import { assets } from "../assets/assets";
 import { motion } from "framer-motion"; // Corrected motion import
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const certificates = useSelector((state) => state.portfolio.certificates);
+  const resumeLink =
+    certificates[0]?.fileUrl ||
+    certificates[0]?.image ||
+    "/sample-resume.pdf";
+
   return (
     <div className="w-11/12 max-w-3xl text-center mx-auto h-screen flex flex-col justify-center items-center gap-4">
       <motion.div
@@ -45,7 +52,7 @@ const Header = () => {
         whileInView={{ y: 0, opacity: 1 }}
         className="text-3xl sm:text-6xl lg:text-[66px] font-Ovo"
       >
-        Fullstack Developer based in LuckNow.
+        Software Developer.
       </motion.h1>
       <motion.p
         initial={{ opacity: 0 }}
@@ -86,8 +93,9 @@ const Header = () => {
             delay: 1.4, // Adjusted delay for staggered animation
           }}
           whileInView={{ y: 0, opacity: 1 }}
-          href="/assets/sample-resume.pdf"
-          download
+          href={resumeLink}
+          target="_blank"
+          rel="noreferrer"
           className="px-10 py-3 border rounded-full border-gray-500 flex items-center gap-2 dark:bg-white dark:text-black"
         >
           My Resume{" "}
