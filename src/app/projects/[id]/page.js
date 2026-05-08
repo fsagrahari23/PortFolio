@@ -112,16 +112,8 @@ export default function ProjectDetailsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <div className="rounded-2xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-darkHover">
-                <p className="text-sm text-gray-500 dark:text-white/60">Likes</p>
-                <p className="mt-2 text-2xl font-semibold">{project.likes ?? 0}</p>
-              </div>
-              <div className="rounded-2xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-darkHover">
-                <p className="text-sm text-gray-500 dark:text-white/60">Comments</p>
-                <p className="mt-2 text-2xl font-semibold">{project.comments ?? 0}</p>
-              </div>
-              <div className="rounded-2xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-darkHover col-span-2">
                 <p className="text-sm text-gray-500 dark:text-white/60">Created</p>
                 <p className="mt-2 text-lg font-medium">{formatDate(project.createdAt)}</p>
               </div>
